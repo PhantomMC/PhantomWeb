@@ -1,78 +1,137 @@
-// Package main starts the simple server on port and serves HTML,
-// CSS, and JavaScript to clients.
+// Based on a framework by | Jim Mahoney | cs.marlboro.edu | MIT License
 package main
 
 import (
 	"fmt"
-	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-	"time"
+	"strconv"
 )
 
-// templates parses the specified templates and caches the parsed results
-// to help speed up response times.
-var templates = template.Must(template.ParseFiles("./templates/base.html", "./templates/body.html"))
-
-// logging is middleware for wrapping any handler we want to track response
-// times for and to see what resources are requested.
-func logging(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		start := time.Now()
-		req := fmt.Sprintf("%s %s", r.Method, r.URL)
-		log.Println(req)
-		next.ServeHTTP(w, r)
-		log.Println(req, "completed in", time.Now().Sub(start))
-	})
+func SetMyCookie(response http.ResponseWriter) {
+	// Add a simplistic cookie to the response.
+	cookie := http.Cookie{Name: "testcookiename", Value: "testcookievalue"}
+	http.SetCookie(response, &cookie)
 }
 
-// index is the handler responsible for rending the index page for the site.
-func index() http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		b := struct {
-			Title        template.HTML
-			BusinessName string
-			Slogan       string
-		}{
-			Title:        template.HTML("Business &verbar; Landing"),
-			BusinessName: "Business,",
-			Slogan:       "we get things done.",
-		}
-		err := templates.ExecuteTemplate(w, "base", &b)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("index: couldn't parse template: %v", err), http.StatusInternalServerError)
-			return
-		}
-		w.WriteHeader(http.StatusOK)
-	})
+// Delivers content to requests sent the home page.
+func ConnectionHandler(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-type", "text/html")
+	webpage, err := ioutil.ReadFile("./static/index.html")
+	if err != nil {
+		http.Error(response, fmt.Sprintf("index.html file error %v", err), 500)
+	}
+	fmt.Fprint(response, string(webpage))
 }
 
-// public serves static assets such as CSS and JavaScript to clients.
-func public() http.Handler {
-	return http.StripPrefix("/public/", http.FileServer(http.Dir("./public")))
+// Manages account registration
+func RegistrationHandler(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-type", "text/html")
+	webpage, err := ioutil.ReadFile("./static/registration.html")
+	if err != nil {
+		http.Error(response, fmt.Sprintf("registration.html file error %v", err), 500)
+	}
+	fmt.Fprint(response, string(webpage))
 }
+
+// Manages account registration
+func EntryHandler(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-type", "text/html")
+	webpage, err := ioutil.ReadFile("./static/login.html")
+	if err != nil {
+		http.Error(response, fmt.Sprintf("login.html file error %v", err), 500)
+	}
+	fmt.Fprint(response, string(webpage))
+}
+
+func EditingHandler(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-type", "text/html")
+	webpage, err := ioutil.ReadFile("./static/dashboard.html")
+	if err != nil {
+		http.Error(response, fmt.Sprintf("dashboard.html file error %v", err), 500)
+	}
+	fmt.Fprint(response, string(webpage))
+}
+
+func CreationHandler(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-type", "text/html")
+	webpage, err := ioutil.ReadFile("./static/new.html")
+	if err != nil {
+		http.Error(response, fmt.Sprintf("new.html file error %v", err), 500)
+	}
+	fmt.Fprint(response, string(webpage))
+}
+
+/* Respond to URLs of the form /item/...
+func ItemHandler(response http.ResponseWriter, request *http.Request) {
+
+	// Set cookie and MIME type in the HTTP headers.
+	SetMyCookie(response)
+	response.Header().Set("Content-type", "application/json")
+
+	// Some sample data to be sent back to the client.
+	data := map[string]string{"what": "item", "name": ""}
+
+	// Was the URL of the form /item/name ?
+	var itemURL = regexp.MustCompile(`^/item/(\w+)$`)
+	var itemMatches = itemURL.FindStringSubmatch(request.URL.Path)
+	// itemMatches is captured regex matches i.e. ["/item/which", "which"]
+	if len(itemMatches) > 0 {
+		// Yes, so send the JSON to the client.
+		data["name"] = itemMatches[1]
+		json_bytes, _ := json.Marshal(data)
+		fmt.Fprintf(response, "%s\n", json_bytes)
+
+	} else {
+		// No, so send "page not found."
+		http.Error(response, "404 page not found", 404)
+	}
+}*/
+/*// Respond to URLs of the form /generic/...
+func GenericHandler(response http.ResponseWriter, request *http.Request) {
+
+	// Set cookie and MIME type in the HTTP headers.
+	SetMyCookie(response)
+	response.Header().Set("Content-type", "text/plain")
+
+	// Parse URL and POST data into the request.Form
+	err := request.ParseForm()
+	if err != nil {
+		http.Error(response, fmt.Sprintf("error parsing url %v", err), 500)
+	}
+
+	// Send the text diagnostics to the client.
+	fmt.Fprint(response, "FooWebHandler says ... \n")
+	fmt.Fprintf(response, " request.Method     '%v'\n", request.Method)
+	fmt.Fprintf(response, " request.RequestURI '%v'\n", request.RequestURI)
+	fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.URL.Path)
+	fmt.Fprintf(response, " request.Form       '%v'\n", request.Form)
+	fmt.Fprintf(response, " request.Cookies()  '%v'\n", request.Cookies())
+}*/
 
 func main() {
+	port := 8097
+	portstring := strconv.Itoa(port)
+
+	// Register request handlers for two URL patterns.
+	// (The docs are unclear on what a 'pattern' is,
+	// but seems be the start of the URL, ending in a /).
+	// See gorilla/mux for a more powerful matching system.
+	// Note that the "/" pattern matches all request URLs.
 	mux := http.NewServeMux()
-	mux.Handle("/public/", logging(public()))
-	mux.Handle("/", logging(index()))
+	mux.Handle("/", http.HandlerFunc(ConnectionHandler))
+	mux.Handle("/home", http.HandlerFunc(ConnectionHandler))
+	mux.Handle("/register", http.HandlerFunc(RegistrationHandler))
+	mux.Handle("/login", http.HandlerFunc(EntryHandler))
+	mux.Handle("/dashboard", http.HandlerFunc(EditingHandler))
+	mux.Handle("/new", http.HandlerFunc(CreationHandler))
 
-	port, ok := os.LookupEnv("PORT")
-	if !ok {
-		port = "8080"
-	}
-
-	addr := fmt.Sprintf(":%s", port)
-	server := http.Server{
-		Addr:         addr,
-		Handler:      mux,
-		ReadTimeout:  15 * time.Second,
-		WriteTimeout: 15 * time.Second,
-		IdleTimeout:  15 * time.Second,
-	}
-	log.Println("main: running simple server on port", port)
-	if err := server.ListenAndServe(); err != nil {
-		log.Fatalf("main: couldn't start simple server: %v\n", err)
+	// Start listing on a given port with these routes on this server.
+	// (I think the server name can be set here too , i.e. "foo.org:8080")
+	log.Print("Listening on port " + portstring + " ... ")
+	err := http.ListenAndServe(":"+portstring, mux)
+	if err != nil {
+		log.Fatal("ListenAndServe error: ", err)
 	}
 }

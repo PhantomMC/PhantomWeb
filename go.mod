@@ -1,3 +1,3 @@
-module github.com/wemgl/simple-server
+module github.com/PhantomMC/PhantomWeb
 
-go 1.12
+go 1.16
