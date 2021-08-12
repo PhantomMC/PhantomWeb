@@ -1,0 +1,40 @@
+extends ../layout
+block content
+	div(class="w3-center")
+		h3 Please provide a username and password to register.
+		form#login-form(name="login-form" method="post" action="/user/register")
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Username: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="text" name="username")
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Password: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="password" name="password1")
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Confirm Password: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="password" name="password2")
+			if redirectURL
+				input(type="hidden" name="redirectURL" value=redirectURL)
+		div(class="w3-padding-16")
+			input(type="submit" class="theme-submit w3-button" value="Submit" id="submit")
+		script.
+			$('#submit').click(() => {
+				var username = $('input[name=username]').val();
+				var pass1 = $('input[name=password1]').val();
+				var pass2 = $('input[name=password2]').val();
+				if (!username) {
+					return NotificationCard.error('Please specify a username and password.');
+				}
+				if (pass1 !== pass2) {
+					return NotificationCard.error('Please make sure both passwords match.');
+				}
+				if (pass1.length < 8) {
+					return NotificationCard.error('Please make sure your password is at least 8 characters. Other than that, go nuts.');
+				}
+				$('form[name=login-form]').submit();
+			});

@@ -1,0 +1,115 @@
+:root{
+	--primary-text: #000000;
+	--hover-color: #20202080;
+	--hover-text-color: #000000;
+	--animation-time: 0.2s;
+	--long-animation-time: 1.4s;
+	--animate: all var(--animation-time) ease-in-out;
+}
+
+.phantom-header img{
+	max-height: 200px;
+}
+
+@media(max-width: 600px) {
+	.phantom-header{
+		text-align: center!important;
+	}
+	.header-text{
+		text-align: center;
+	}
+}
+
+.strong{font-weight: bold;}
+
+/* .header-button{
+	border: 2px solid #20202080;
+	background-color: #00000020;
+	transition: background-color 1s, 
+} */
+
+
+.theme-submit{
+	border: 2px solid var(--primary-text);
+	transition: var(--animate);
+	min-width: 150px;
+	padding: 12px 16px;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+.theme-submit:hover{
+	color: var(--hover-text-color)!important;
+	background-color:var(--hover-color)!important;
+	border-color: var(--hover-text-color);
+}
+
+.header-button{
+	border: 4px solid #20202080;
+	background-color: #00000020;
+	transition: var(--animate);
+	width: 100%;
+	padding: 12px 16px;
+	text-transform: uppercase;
+	font-size: 16px;
+}
+.header-button:hover{
+	color: #fbfce5!important;
+	background-color: #464b63b0!important;
+	border-color: #050d33;
+}
+.w3-button{
+	border: 2px solid var(--primary-text);
+	transition: var(--animate);
+}
+.w3-button:hover{
+	background: var(--hover-color)!important;
+	color: var(--hover-text-color)!important;
+}
+.w3-button.red{border-color: var(--red-color); color: var(--red-color)!important;}
+.w3-button.red:hover{background-color: var(--red-hover-color)!important;color: var(--hover-text-color)!important;}
+
+
+/* For notification cards */
+.notification-card-container{
+	position: fixed;
+	z-index: 2;
+	width: 100%;
+	top: 45px;
+	left: 0px;
+}
+
+.notification-card{
+	z-index: 3;
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
+	background-color: rgb(255, 179, 179);
+	margin: 16px 0px;
+	transition: opacity 2s;
+	transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+	
+	border-bottom-style: solid;
+	border-bottom-width: 4px;
+}
+
+.notification-card .notification-card-content{
+	font-size: 1.1em;
+	text-align: center;
+	word-wrap: break-word;	
+	padding: 12px 32px;
+}
+
+.notification-card .notification-card-exit{
+	font-size: 1.2em;
+	text-align: center;
+	font-family: monospace;
+	transform: scaleX(1.3);
+	
+	float: right;
+	padding: 12px 24px;
+}
+
+.notification-card .notification-card-exit:hover{
+	cursor: pointer;
+}
+

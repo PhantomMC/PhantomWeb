@@ -1,0 +1,32 @@
+div(id="nav" class="")
+	div(class="w3-padding-small w3-row")
+		a(href="/")
+			div(class="w3-half w3-right-align phantom-header")
+				img(class="w3-image" src="/images/phantom.png")
+			div(class="w3-half header-text")
+				div(class="w3-padding-16 w3-xxxlarge")
+					span(style="letter-spacing: 3px;") PHANTOM
+				div(class="w3-large")
+					span Server Broadcasting Service
+	div(class="w3-padding-small w3-row")
+		div(class="w3-quarter w3-padding-small")
+			if user
+				a(href="/user/logout")
+					div(class="w3-button header-button")
+						span Log Out
+			else 
+				a(href="/user/login")
+					div(class="w3-button header-button")
+						span Login
+		div(class="w3-quarter w3-padding-small")
+			a(href="/about")
+				div(class="w3-button header-button")
+					span Information
+		div(class="w3-quarter w3-padding-small")
+			a(href="https://discord.gg/ASgcxVvhU9" target="_blank")
+				div(class="w3-button header-button")
+					span Support
+		div(class="w3-quarter w3-padding-small")
+			a(href="/user/register")
+				div(class="w3-button header-button")
+					span Register
