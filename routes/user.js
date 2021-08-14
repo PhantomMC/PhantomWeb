@@ -100,7 +100,6 @@ router.get('/login', async function(req, res) {
 
 router.post('/login', async function(req, res) {
 	logger.addContext('funcName', 'login[post]');
-	logger.debug('ENTER');
 	
 	const username = req.body.username;
 	const password = req.body.password;
@@ -165,7 +164,7 @@ router.all('/profile', wrap(async (req, res, next) => {
 
 router.get('/profile', wrap(async (req, res) => {
 	logger.addContext('funcName', 'profile[get]');
-	logger.debug('ENTER');
+	logger.debug('Loading profile page');
 	
 	var user = req.user;
 	
@@ -190,7 +189,7 @@ router.all('/profile/newserver', wrap(async (req, res, next) => {
 
 router.get('/profile/newserver', wrap(async (req, res) => {
 	logger.addContext('funcName', 'newserver[get]');
-	logger.debug('ENTER');
+	logger.debug('Creating newserver page');
 
 	var user = req.user;
 
@@ -235,7 +234,10 @@ router.post('/profile/newserver', async function (req, res) {
 
 	upload(req, res, function (e) {
 		logger.info("Loaded image")
-		logger.debug("image: " + JSON.stringify(req.file))
+
+		const encoded = req.file.buffer.toString('base64')
+
+		logger.debug("image: " + encoded)
 		res.redirect('/user/profile')
 	});
 });
