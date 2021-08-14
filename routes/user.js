@@ -8,7 +8,6 @@ const saltRounds = 12;
 
 
 var multer = require('multer');
-var AvatarStorage = require('../helpers/AvatarStorage');
 
 router.all('/*', wrap(async (req, res, next) => {
 	//Must remove from logger context to avoid unwanted persistent funcName.
