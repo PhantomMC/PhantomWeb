@@ -223,10 +223,7 @@ var fileFilter = function (req, file, cb) {
 };
 
 //create basic multer function upload
-var upload = multer({
-	limits: limits,
-	fileFilter: fileFilter,
-}).single("serverpicture");
+var upload = multer({}).single("serverpicture");
 
 router.post('/profile/newserver', async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
