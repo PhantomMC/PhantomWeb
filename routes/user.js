@@ -189,12 +189,10 @@ router.get('/profile/newserver', wrap(async (req, res) => {
 	logger.addContext('funcName', 'profile[get]');
 	logger.debug('ENTER');
 
-	var redirectURL = req.query.redirectURL || undefined;
 	var user = req.user;
 
 	res.render('./user/newserver', {
 		title: 'Create a new server',
-		redirectURL: redirectURL,
 		user: user
 	});
 
