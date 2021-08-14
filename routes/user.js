@@ -152,7 +152,7 @@ router.post('/login', async function(req, res) {
 	}
 });
 
-/*
+
 router.all('/profile', wrap(async (req, res, next) => {
 	//require login for profile
 	if (req.user) {
@@ -172,8 +172,6 @@ router.get('/profile', wrap(async (req, res) => {
 	});
 	
 }));
-
-*/
 
 router.all('/newpassword', wrap(async (req, res, next) => {
 	//require login for newpassword
@@ -222,7 +220,7 @@ router.post('/newpassword', wrap(async (req, res) => {
 		return res.redirect(req.body.redirectURL + '?alert=Set password successfully.&type=good');
 	}
 	
-	res.redirect('/home?alert=Set password successfully.');
+	res.redirect('?alert=Set password successfully.');
 	
 }));
 
@@ -240,7 +238,7 @@ router.get('/logout', wrap(async (req, res) => {
 		if (err) return console.log(err);
 		
 		//now, redirect to index
-		res.redirect('/home');
+		res.redirect('');
 	});
 	
 }));

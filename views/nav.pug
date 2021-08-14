@@ -27,6 +27,11 @@ div(id="nav" class="")
 				div(class="w3-button header-button")
 					span Support
 		div(class="w3-quarter w3-padding-small")
-			a(href="/user/register")
-				div(class="w3-button header-button")
-					span Register
+			if user
+				a(href="/user/profile")
+					div(class="w3-button header-button")
+						span My Servers
+			else
+				a(href="/user/register")
+					div(class="w3-button header-button")
+						span Register
