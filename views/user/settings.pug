@@ -1,0 +1,8 @@
+extends ../layout
+block content
+	div(class="w3-center")
+		form#login-form(name="login-form" method="post" action="/user/login")
+			h3(class="theme-text")=title
+			a(href="/user/profile/newserver")
+				div(class="w3-button header-button")
+					span Create New Server

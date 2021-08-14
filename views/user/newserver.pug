@@ -1,0 +1,36 @@
+extends ../layout
+block content
+	div(class="w3-center")
+		form#login-form(name="login-form" method="post" action="/user/login")
+			h3(class="theme-text")=title
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Server Name: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="text" name="servername")
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Lower message: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="password" name="lowermessage")
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Upper message: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="password" name="uppermessage")
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Hover message: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="password" name="hovermessage")
+			div(class="w3-row w3-padding-16")
+				div(class="w3-quarter w3-label")
+					label Disconnect message: 
+				div(class="w3-half")
+					input(class="w3-input theme-input w3-no-border" type="password" name="disconnectmessage")
+			
+			
+			if redirectURL
+				input(type="hidden" name="redirectURL" value=redirectURL)
+			div(class="w3-padding-16")
+				input(type="submit" class="theme-submit w3-button" value="Submit")

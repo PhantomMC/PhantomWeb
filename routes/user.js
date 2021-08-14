@@ -167,11 +167,41 @@ router.get('/profile', wrap(async (req, res) => {
 	var user = req.user;
 	
 	res.render('./user/settings', {
-		title: 'Profile and Settings',
+		title: 'Currently hosted servers',
 		user: user
 	});
 	
 }));
+
+
+router.post('/profile', async function (req, res) {
+	logger.addContext('funcName', 'profile[post]');
+});
+
+router.all('/profile/newserver', wrap(async (req, res, next) => {
+	//require login for creating new server
+	if (req.user) {
+		next();
+	}
+}));
+
+router.get('/profile/newserver', wrap(async (req, res) => {
+	logger.addContext('funcName', 'profile[get]');
+	logger.debug('ENTER');
+
+	var user = req.user;
+
+	res.render('./user/newserver', {
+		title: 'Create a new server',
+		user: user
+	});
+
+}));
+
+router.post('/profile/newserver', async function (req, res) {
+	logger.addContext('funcName', 'newserver[post]');
+	logger.debug('ENTER')
+});
 
 router.all('/newpassword', wrap(async (req, res, next) => {
 	//require login for newpassword
