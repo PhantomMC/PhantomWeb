@@ -3,7 +3,10 @@ const utilities = require('@firstteam102/scoutradioz-utilities');
 const wrap = require('express-async-handler');
 
 router.get('/', wrap(async (req, res) => {
-	
+	res.redirect('/home');
+}));
+
+router.get('/home', wrap(async (req, res) => {
 	res.render('./index', {
 		fulltitle: 'Phantom: A Minecraft Server Broadcasting Service'
 	});

@@ -217,10 +217,10 @@ router.post('/newpassword', wrap(async (req, res) => {
 	);
 	
 	if (req.body.redirectURL) {
-		return res.redirect(req.body.redirectURL + '?alert=Set password successfully.&type=good');
+		return res.redirect(req.body.redirectURL + '/home?alert=Set password successfully.&type=good');
 	}
 	
-	res.redirect('?alert=Set password successfully.');
+	res.redirect('/home?alert=Set password successfully.');
 	
 }));
 
@@ -238,7 +238,7 @@ router.get('/logout', wrap(async (req, res) => {
 		if (err) return console.log(err);
 		
 		//now, redirect to index
-		res.redirect('');
+		res.redirect('/home');
 	});
 	
 }));
