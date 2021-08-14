@@ -202,15 +202,6 @@ router.get('/profile/newserver', wrap(async (req, res) => {
 
 }));
 
-//create AvatarStorage object with our own parameters
-var storage = AvatarStorage({
-	square: true,
-	responsive: true,
-	output: "jpg",
-	greyscale: false,
-	quality: 60,
-	threshold: 500
-});
 
 //create image limits (10MB max)
 var limits = {
@@ -235,20 +226,19 @@ var fileFilter = function (req, file, cb) {
 
 //create basic multer function upload
 var upload = multer({
-	storage: storage,
 	limits: limits,
-	fileFilter: fileFilter
+	fileFilter: fileFilter,
 }).single("serverpicture");
 
 router.post('/profile/newserver', async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
-	logger.debug('ENTER')
+	logger.debug('ENTER');
 
 	upload(req, res, function (e) {
 		logger.info("Loaded image")
 		logger.debug("image: " + JSON.stringify(req.file))
 		res.redirect('/user/profile')
-    })
+	});
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
