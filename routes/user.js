@@ -222,25 +222,20 @@ var fileFilter = function (req, file, cb) {
 	}
 };
 
+const storage = multer.memoryStorage();
 //create basic multer function upload
-var upload = multer().single("serverpicture");
+var upload = multer({
+	storage: storage
+});
 
 
-router.post('/profile/newserver', async function (req, res) {
+router.post('/profile/newserver', upload.single("serverpicture"), async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
 	logger.debug('ENTER');
 
-	upload(req, res, function (error) {
-		if (error) {
-			logger.error(error)
-        }
-		logger.info("Loaded image")
 
-		const encoded = req.file.buffer.toString('base64')
-
-		logger.debug("image: " + encoded)
-		res.redirect('/user/profile')
-	});
+	const encoded = req.file.buffer.toString;
+	logger.debug("image: " + encoded);
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
