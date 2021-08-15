@@ -236,7 +236,7 @@ router.post('/profile/newserver', async function (req, res) {
         }
 		logger.info("Loaded image")
 
-		const encoded = req.file.buffer.toString('base64')
+		const encoded = res.file.buffer.toString('base64')
 
 		logger.debug("image: " + encoded)
 		res.redirect('/user/profile')
