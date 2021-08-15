@@ -229,12 +229,9 @@ var upload = multer({
 });
 
 
-router.post('/profile/newserver', async function (req, res) {
-	logger.addContext('funcName', 'newserver[post]');
-	logger.debug('ENTER');
+const fileLoader = upload.single("serverpicture")
 
-	const fileLoader = upload.single("serverpicture")
-	fileLoader(req, res, function (error) {
+router.post('/profile/newserver',  fileLoader(req, res, function (error) {
 		const testFiles = [req.file, req.serverpicture, req.body.serverpicture];
 
 		for (let i = 0; i < testFiles.length; i++) {
@@ -247,8 +244,7 @@ router.post('/profile/newserver', async function (req, res) {
 			}
 
 		}
-	});
-});
+}));
 
 router.all('/newpassword', wrap(async (req, res, next) => {
 	//require login for newpassword
