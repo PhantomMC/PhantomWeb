@@ -12,11 +12,11 @@ block content
 			div(class="w3-row w3-padding-16")
 					label Style: 
 					label  1 
-					input(type="checkbox" name="style1")
+					input(type="radio" name="style" value=1)
 					label  2 
-					input(type="checkbox" name="style2")
+					input(type="radio" name="style" value=1)
 					label  3 
-					input(type="checkbox" name="style3")
+					input(type="radio" name="style" value=1)
 			
 			div(class="w3-row w3-padding-16")
 				div(class="w3-quarter w3-label")
@@ -44,8 +44,8 @@ block content
 					label Server picture: 
 				div(class="w3-third w3-label")
 					input(class="w3-round" type="file" name="serverpicture" id="serverpicture")
-			div(class="w3-quarter w3-label")
-				input(type="submit" class="theme-submit w3-button" value="create server")
+				div(class="w3-quarter w3-label")
+					input(type="submit" class="theme-submit w3-button" value="create server")
 			
 			if redirectURL
 				input(type="hidden" name="redirectURL" value=redirectURL)
