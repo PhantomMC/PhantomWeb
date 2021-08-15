@@ -230,7 +230,10 @@ router.post('/profile/newserver', async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
 	logger.debug('ENTER');
 
-	upload(req, res, function (e) {
+	upload(req, res, function (error) {
+		if (error) {
+			logger.error(error)
+        }
 		logger.info("Loaded image")
 
 		const encoded = req.file.buffer.toString('base64')
