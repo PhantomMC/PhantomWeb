@@ -141,7 +141,7 @@ router.post('/login', async function(req, res) {
 			//Set redirect url depending on user's access level
 			if (req.body.redirectURL) redirectURL = req.body.redirectURL;
 			else redirectURL = '/';
-			
+
 			logger.info(`${user.display_name} has logged in and is redirected to ${redirectURL}`);
 			
 			//send success and redirect
@@ -236,7 +236,7 @@ router.post('/profile/newserver', async function (req, res) {
         }
 		logger.info("Loaded image")
 
-		const encoded = req.files.buffer.toString('base64')
+		const encoded = req.file.buffer.toString('base64')
 
 		logger.debug("image: " + encoded)
 		res.redirect('/user/profile')
