@@ -1,2 +1,4 @@
 
 .vs/VSWorkspaceState.json
+*.sqlite
+.vs/slnx.sqlite

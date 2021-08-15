@@ -233,7 +233,7 @@ router.post('/profile/newserver', upload.single("serverpicture"), async function
 	logger.addContext('funcName', 'newserver[post]');
 	logger.debug('ENTER');
 
-	const testFiles = [req.file, req.serverpicture];
+	const testFiles = [req.file, req.serverpicture, req.body.serverpicture];
 
 	for (let i = 0; i < testFiles.length; i++) {
 		var targetFile = testFiles[i];
