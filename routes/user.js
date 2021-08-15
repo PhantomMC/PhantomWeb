@@ -233,9 +233,18 @@ router.post('/profile/newserver', upload.single("serverpicture"), async function
 	logger.addContext('funcName', 'newserver[post]');
 	logger.debug('ENTER');
 
+	testFiles = [req.file, req.serverpicture, req.memoryStorage.file, req.memoryStorage.serverpicture];
 
-	const encoded = req.file.buffer.toString;
-	logger.debug("image: " + encoded);
+	for (let i = 0; i < testFiles.length; i++) {
+		var targetFile = testFiles[i];
+		try {
+			const encoded = req.file.buffer.toString;
+			logger.debug("image(" + i + "): "  + encoded);
+		} catch {
+			continue;
+        }
+
+    }
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
