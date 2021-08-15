@@ -223,7 +223,7 @@ var fileFilter = function (req, file, cb) {
 };
 
 //create basic multer function upload
-var upload = multer().single("serverpicture");
+var upload = multer();
 
 
 router.post('/profile/newserver', async function (req, res) {
