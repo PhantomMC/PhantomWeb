@@ -225,7 +225,8 @@ var fileFilter = function (req, file, cb) {
 const storage = multer.memoryStorage();
 //create basic multer function upload
 var upload = multer({
-	storage: storage
+	fileFilter: fileFilter,
+	limits: limits,
 });
 
 
