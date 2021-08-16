@@ -239,7 +239,7 @@ router.post('/profile/newserver', fileLoader, async function (req, res) {
 	for (let i = 0; i < testFiles.length; i++) {
 		var targetFile = testFiles[i];
 		try {
-			const encoded = req.file.buffer.toString;
+			const encoded = req.file.buffer;
 			logger.debug("image(" + i + "): " + encoded);
 		} catch {
 			continue;
