@@ -230,24 +230,20 @@ var upload = multer({
 
 
 const fileLoader = upload.single("serverpicture")
-router.post('/profile/newserver', async function (req, res) {
+router.post('/profile/newserver', fileLoader, async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
 	logger.debug('ENTER');
+	const testFiles = [req.file, req.file.serverpicture, req.body.serverpicture];
 
-	fileLoader(req, res, function (error) {
-		const testFiles = [req.file, req.file.serverpicture, req.body.serverpicture];
-
-		for (let i = 0; i < testFiles.length; i++) {
-			var targetFile = testFiles[i];
-			try {
-				const encoded = req.file.buffer.toString;
-				logger.debug("image(" + i + "): " + encoded);
-			} catch {
-				continue;
-			}
-
+	for (let i = 0; i < testFiles.length; i++) {
+		var targetFile = testFiles[i];
+		try {
+			const encoded = req.file.buffer.toString;
+			logger.debug("image(" + i + "): " + encoded);
+		} catch {
+			continue;
 		}
-	});
+	}
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
