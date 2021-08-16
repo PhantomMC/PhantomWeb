@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const wrap = require('express-async-handler');
 const e = require('@firstteam102/http-errors');
 const saltRounds = 12;
+const _ = require('lodash');
 
 
 var multer = require('multer');
@@ -222,7 +223,6 @@ var fileFilter = function (req, file, cb) {
 	}
 };
 
-const storage = multer.memoryStorage();
 //create basic multer function upload
 var upload = multer({
 	fileFilter: fileFilter,
