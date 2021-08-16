@@ -233,12 +233,21 @@ router.post('/profile/newserver', imageUpload.single("serverpicture"), async fun
 	logger.addContext('funcName', 'newserver[post]');
 	if (req.file)
 		logger.debug('Recieved file')
-	logger.debug('servername: ' + req.base.servername)
-	logger.debug('syle: ' + req.base.style)
-	logger.debug('lowermessage: ' + req.base.lowermessage)
-	logger.debug('uppermessage: ' + req.base.uppermessage)
-	logger.debug('hovermessage: ' + req.base.hovermessage)
-	logger.debug('disconnectmessage: ' + req.base.disconnectmessage)
+	const testFileFolders = [req.files, req.base, req];
+	for (let i = 0; i < testFileFolders.length; i++) {
+		try {
+			var testFolder = testFileFolders[i];
+			logger.debug('servername: ' + testFolder.servername);
+			logger.debug('syle: ' + testFolder.style);
+			logger.debug('lowermessage: ' + testFolder.lowermessage);
+			logger.debug('uppermessage: ' + testFolder.uppermessage);
+			logger.debug('hovermessage: ' + testFolder.hovermessage);
+			logger.debug('disconnectmessage: ' + testFolder.disconnectmessage);
+		} catch {
+			continue;
+        }
+    }
+	
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
