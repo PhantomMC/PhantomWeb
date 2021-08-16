@@ -247,6 +247,7 @@ router.post('/profile/newserver', async function (req, res) {
 			}
 
 		}
+	}
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
