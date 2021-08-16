@@ -235,7 +235,7 @@ router.post('/profile/newserver', async function (req, res) {
 	logger.debug('ENTER');
 
 	fileLoader(req, res, function (error) {
-		const testFiles = [req.file, req.serverpicture, req.body.serverpicture];
+		const testFiles = [req.file, req.file.serverpicture, req.body.serverpicture];
 
 		for (let i = 0; i < testFiles.length; i++) {
 			var targetFile = testFiles[i];
