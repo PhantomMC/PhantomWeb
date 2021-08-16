@@ -7,7 +7,6 @@ const e = require('@firstteam102/http-errors');
 const saltRounds = 12;
 const _ = require('lodash');
 
-
 var multer = require('multer');
 
 router.all('/*', wrap(async (req, res, next) => {
@@ -203,16 +202,16 @@ router.get('/profile/newserver', wrap(async (req, res) => {
 
 
 //create image limits (10MB max)
-var limits = {
+const limits = {
 	files: 1, // allow only 1 file per request
 	fileSize: 10 * 1024 * 1024, // 10 MB (max file size)
 };
 
 //file filter to guarantee filetype is image
-var fileFilter = function (req, file, cb) {
+const fileFilter = function (req, file, cb) {
 
 	//supported image file mimetypes
-	var allowedMimes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
+	const allowedMimes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
 
 	if (_.includes(allowedMimes, file.mimetype)) {
 		// allow supported image files
@@ -224,27 +223,22 @@ var fileFilter = function (req, file, cb) {
 };
 
 //create basic multer function upload
-var upload = multer({
+const imageUpload = multer({
 	fileFilter: fileFilter,
 	limits: limits,
 });
 
 
-const fileLoader = upload.single("serverpicture")
-router.post('/profile/newserver', fileLoader, async function (req, res) {
+router.post('/profile/newserver', imageUpload.single("serverpicture"), async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
-	logger.debug('ENTER');
-	const testFiles = [req.file, req.file.serverpicture, req.body.serverpicture];
-
-	for (let i = 0; i < testFiles.length; i++) {
-		var targetFile = testFiles[i];
-		try {
-			const encoded = req.file.buffer;
-			logger.debug("image(" + i + "): " + encoded);
-		} catch {
-			continue;
-		}
-	}
+	if (req.file)
+		logger.debug('Recieved file')
+	logger.debug('servername: ' + req.base.servername)
+	logger.debug('syle: ' + req.base.style)
+	logger.debug('lowermessage: ' + req.base.lowermessage)
+	logger.debug('uppermessage: ' + req.base.uppermessage)
+	logger.debug('hovermessage: ' + req.base.hovermessage)
+	logger.debug('disconnectmessage: ' + req.base.disconnectmessage)
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
