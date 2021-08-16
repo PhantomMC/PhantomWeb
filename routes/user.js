@@ -240,7 +240,7 @@ router.post('/profile/newserver', imageUpload.single("serverpicture"), async fun
 	logger.debug('hovermessage: ' + req.body.hovermessage);
 	logger.debug('disconnectmessage: ' + req.body.disconnectmessage);
 
-	res.redirect('user/profile')
+	res.redirect('./')
 });
 
 router.all('/newpassword', wrap(async (req, res, next) => {
