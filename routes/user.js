@@ -231,8 +231,10 @@ const imageUpload = multer({
 
 router.post('/profile/newserver', imageUpload.single("serverpicture"), async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
+	let issue = false;
+
 	if (req.file)
-		logger.debug('Recieved file')
+		logger.debug('Recieved file');
 	logger.debug('servername: ' + req.body.servername);
 	logger.debug('style: ' + req.body.style);
 	logger.debug('lowermessage: ' + req.body.lowermessage);
