@@ -7,7 +7,7 @@ const e = require('@firstteam102/http-errors');
 const saltRounds = 12;
 const _ = require('lodash');
 const mongoDb = require("../helpers/MongoManager")
-const mongoConnection = mongoDb(require("../databases.json"),"phantomHost");
+const mongoConnection = new mongoDb(require("../databases.json"),"phantomHost");
 
 var multer = require('multer');
 
