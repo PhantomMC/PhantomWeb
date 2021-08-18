@@ -6,6 +6,8 @@ const wrap = require('express-async-handler');
 const e = require('@firstteam102/http-errors');
 const saltRounds = 12;
 const _ = require('lodash');
+const mongoDb = require("../helpers/MongoManager")
+const mongoConnection = mongoDb(require("../databases.json"),"phantomHost");
 
 var multer = require('multer');
 
@@ -231,16 +233,40 @@ const imageUpload = multer({
 
 router.post('/profile/newserver', imageUpload.single("serverpicture"), async function (req, res) {
 	logger.addContext('funcName', 'newserver[post]');
-	let issue = false;
+	const notDefinedFields = [];
 
-	if (req.file)
-		logger.debug('Recieved file');
-	logger.debug('servername: ' + req.body.servername);
-	logger.debug('style: ' + req.body.style);
-	logger.debug('lowermessage: ' + req.body.lowermessage);
-	logger.debug('uppermessage: ' + req.body.uppermessage);
-	logger.debug('hovermessage: ' + req.body.hovermessage);
-	logger.debug('disconnectmessage: ' + req.body.disconnectmessage);
+	if (!req.file)
+		notDefinedFields.push("Server image")
+	if (!req.body.servername)
+		notDefinedFields.push("Servername")
+	if (!req.body.style)
+		notDefinedFields.push("Style");
+
+	if (!req.body.lowermessage)
+		req.body.lowermessage = "";
+	if (!req.body.uppermessage)
+		req.body.uppermessage = "";
+	if (!req.body.hovermessage)
+		req.body.hovermessage = "";
+	if (!req.body.disconnectmessage)
+		req.body.disconnectmessage = "";
+
+	if (notDefinedFields.length > 0) {
+		let notDefinedFieldsMsg = "Please fill in the following fields: "
+		for (let i = 0; i < notDefinedFields.length; i++) {
+			notDefinedFieldsMsg = notDefinedFieldsMsg + notDefinedFields + ", ";
+		}
+		//remove the extra ", " in the end
+		notDefinedFieldsMsg = notDefinedFieldsMsg.slice(0, -2);
+		res.redirect(`?alert= ${notDefinedFieldsMsg}.&type=error`)
+		return;
+    }
+
+
+	const collection = mongoConnection.getCollection()
+
+
+
 
 	res.redirect('./')
 });
@@ -293,7 +319,6 @@ router.post('/newpassword', wrap(async (req, res) => {
 	}
 	
 	res.redirect('/home?alert=Set password successfully.');
-	
 }));
 
 
@@ -312,7 +337,6 @@ router.get('/logout', wrap(async (req, res) => {
 		//now, redirect to index
 		res.redirect('/home');
 	});
-	
 }));
 
 module.exports = router;
