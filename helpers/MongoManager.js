@@ -35,7 +35,7 @@ module.exports = class MongoManager {
 	 * Internal function used to try a connection 
 	 */
 	async connect() {
-		this.client = MongoClient(this.url);
+		this.client = new MongoClient(this.url);
 		await this.client.connect();
 		this.db = this.client.db(this.databaseName);
 		await this.db.command({ ping: 1 });
