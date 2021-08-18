@@ -2,7 +2,7 @@ const { MongoClient, MongoError } = require("mongodb")
 
 
 
-export default class MongoManager {
+module.exports = class MongoManager {
 	/*
 	 * default options
 	 */
