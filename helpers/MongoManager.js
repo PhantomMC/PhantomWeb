@@ -34,10 +34,9 @@ class MongoManager {
 	/**
 	 * Internal function used to try a connection 
 	 */
-	connect() {
-		client = MongoClient(this.url);
-		await client.connect();
-		this.client = client;
+	async connect() {
+		this.client = MongoClient(this.url);
+		await this.client.connect();
 		this.db = this.client.db(this.databaseName);
 		await this.db.command({ ping: 1 });
 	}
