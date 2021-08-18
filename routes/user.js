@@ -7,7 +7,7 @@ const e = require('@firstteam102/http-errors');
 const saltRounds = 12;
 const _ = require('lodash');
 const mongoDb = require("../helpers/MongoManager")
-const mongoConnection = new mongoDb(require("../databases.json"),"phantomHost");
+const mongoConnection = new mongoDb(require("../databases.json"));
 
 var multer = require('multer');
 
@@ -79,7 +79,7 @@ router.post('/register', wrap(async (req, res) => {
 		if (req.body.redirectURL) redirectURL = req.body.redirectURL;
 		else redirectURL = '/';
 		
-		logger.info(`${user.display_name} has logged in and is redirected to ${redirectURL}`);
+		logger.info(`${user.username} has logged in and is redirected to ${redirectURL}`);
 		
 		//send success and redirect
 		return res.redirect(redirectURL);
@@ -144,7 +144,7 @@ router.post('/login', async function(req, res) {
 			if (req.body.redirectURL) redirectURL = req.body.redirectURL;
 			else redirectURL = '/';
 
-			logger.info(`${user.display_name} has logged in and is redirected to ${redirectURL}`);
+			logger.info(`${user.username} has logged in and is redirected to ${redirectURL}`);
 			
 			//send success and redirect
 			return res.redirect(redirectURL);
@@ -263,7 +263,8 @@ router.post('/profile/newserver', imageUpload.single("serverpicture"), async fun
     }
 
 
-	const collection = mongoConnection.getCollection()
+	let collection = mongoConnection.getCollection()
+	let cursor = collection.find({ username: req.user })
 
 
 

@@ -3,32 +3,15 @@ const { MongoClient, MongoError } = require("mongodb")
 
 
 module.exports = class MongoManager {
-	/*
-	 * default options
-	 */
-	url = "mongodb://localhost:27017";
 
 	/**
 	 * Create's a connection to mongodb based on the default: url setting
 	 * loads specified database
-	 * @param {any} opts
-	 * @param {string} databaseName
+	 * @param {any} options
 	 */
-	constructor(opts, databaseName) {
-		this.databaseName = databaseName;
-		try {
-			this.url = opts.default.url;
-			this.connect();
-			return;
-		} catch (exception) {
-			if (excpetion instanceof MongoError) {
-				this.url = opt.dev.url;
-				this.connect();
-			}
-			else {
-				throw exception;
-			}
-		}
+	constructor(options) {
+		this.url = options.default.url;
+		this.connect()
 	}
 
 	/**
