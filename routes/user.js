@@ -7,9 +7,13 @@ const e = require('@firstteam102/http-errors');
 const saltRounds = 12;
 const _ = require('lodash');
 const mongoDb = require("../helpers/MongoManager")
-const mongoConnection = new mongoDb(require("../databases.json"));
 
-var multer = require('multer');
+const multer = require('multer');
+
+
+
+const MAX_SERVER_AMOUNT = 1;
+
 
 router.all('/*', wrap(async (req, res, next) => {
 	//Must remove from logger context to avoid unwanted persistent funcName.
@@ -251,6 +255,9 @@ router.post('/profile/newserver', imageUpload.single("serverpicture"), async fun
 	if (!req.body.disconnectmessage)
 		req.body.disconnectmessage = "";
 
+
+	
+
 	if (notDefinedFields.length > 0) {
 		let notDefinedFieldsMsg = "Please fill in the following fields: "
 		for (let i = 0; i < notDefinedFields.length; i++) {
@@ -258,15 +265,42 @@ router.post('/profile/newserver', imageUpload.single("serverpicture"), async fun
 		}
 		//remove the extra ", " in the end
 		notDefinedFieldsMsg = notDefinedFieldsMsg.slice(0, -2);
-		res.redirect(`?alert= ${notDefinedFieldsMsg}.&type=error`)
-		return;
+		return res.redirect(`?alert= ${notDefinedFieldsMsg}.&type=error`)
+		
     }
 
+	const mongoConnection = new mongoDb(require("../databases.json"));
+	const collection = mongoConnection.getCollection("serverData")
 
-	let collection = mongoConnection.getCollection()
-	let cursor = collection.find({ username: req.user })
+	if (!collection.indexExists({ username: req.user.username })) {
+		collection.insert({ username: req.user.username, servers: [] });
+	}
+	let userDocument = collection.findOne({ username: req.user.username });
 
+	let serverlist = userDocument.servers;
+	let isServerUpdate = false;
+	for (let i = 0; i < serverlist.length; i++) {
+		let server = serverlist[i];
+		if (server.name == req.body.servername) {
+			isServerUpdate = true;
+			break;
+		}
+    }
 
+	if (serverlist.length >= MAX_SERVER_AMOUNT
+		&& !isServerUpdate) {
+		return res.redirect('./?alert=Sorry, you are at the maximum server limit');
+	}
+
+	let server = {
+		name: req.body.servername,
+		style: req.body.style,
+		lowermessage: req.body.lowermessage,
+		uppermessage: req.body.uppermessage,
+		hovermessage: req.body.hovermessage,
+		disconnectmessage: req.body.disconnectmessage,
+		image: req.file.buffer,
+	};
 
 
 	res.redirect('./')

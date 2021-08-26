@@ -32,7 +32,7 @@ module.exports = class MongoManager {
 	}
 
 	/**
-	 * Get a mongodb collection, based oncollectionName
+	 * Get a mongodb collection, based on collectionName
 	 * @param {string} collectionName
 	 */
 	getCollection(collectionName) {
